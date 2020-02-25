@@ -61,7 +61,7 @@
 						}]
 					}
 				}
-				
+
 			}
 		}, {
 			"path": "pages/house/houseForm",
@@ -186,9 +186,9 @@
 	},
 	"globalStyle": {
 		//"navigationStyle": "custom",
-		"navigationBarTextStyle": "black",
+		"navigationBarTextStyle": "#FFFFFF",
 		"navigationBarTitleText": "",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+		"navigationBarBackgroundColor": "rgba(82, 133, 197, 1)",
+		"backgroundColor": "#FFFFFF"
 	}
 }

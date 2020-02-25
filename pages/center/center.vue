@@ -113,7 +113,7 @@
 		height: 280upx;
 		padding: 48upx 20upx 20upx 20upx;
 		box-sizing: border-box;
-		background: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.6));
+		background: linear-gradient(to right, rgba(82, 133, 197, 1), rgba(82, 133, 197, 0.9));
 		flex-direction: row;
 		align-items: center;
 	}

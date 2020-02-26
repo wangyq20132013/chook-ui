@@ -11,7 +11,7 @@ export default {
 				url: 'pages/login/login'
 			});
 		}
-		upgrade();
+		//upgrade();
 	},
 	onShow: function() {
 		console.log('App Show');
@@ -90,7 +90,6 @@ m-input {
 	flex: 1;
 	flex-direction: column;
 	background-color: #efeff4;
-	padding: 10px;
 }
 
 .input-group {
@@ -162,11 +161,11 @@ button.primary {
 	width: 100%;
 	.uni-table-row {
 		display: table-row;
-		padding: 15px;
+		padding: 30upx;
 		border-bottom: 1rpx solid #000000;
 		.uni-table-cell {
 			display: table-cell;
-			padding: 10upx 10upx;
+			padding: 20upx 20upx;
 		}
 	}
 }

@@ -152,7 +152,13 @@
 				"navigationBarTitleText": "销售信息"
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/center/about",
+            "style" : {
+				"navigationBarTitleText": "关于应用"
+			}
+        }
+    ],
 	"tabBar": {
 		"color": "#7a7e83",
 		"selectedColor": "#0faeff",

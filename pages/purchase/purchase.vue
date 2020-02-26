@@ -38,13 +38,13 @@
 						<view class="uni-table-cell">
 							<text>{{ value.type }}</text>
 						</view>
-						<view class="uni-table-cell">
+						<view class="uni-table-cell text-right">
 							<text>{{ value.money }}元</text>
 						</view>
-						<view class="uni-table-cell">
+						<view class="uni-table-cell text-right">
 							<text>{{ value.paymoney }}元</text>
 						</view>
-						<view class="uni-table-cell">
+						<view class="uni-table-cell text-right">
 							<text>{{ value.nopaymoney }}元</text>
 						</view>
 					</view>
@@ -159,26 +159,36 @@ export default {
 			display: table-cell;
 			text-align: center;
 			.sum-title {
-				font-size: 18upx;
-				padding: 0px 10px;
+				font-size: 28upx;
+				padding: 0px 10upx;
+				line-height: 1.5;
 			}
 			.sum-num-1 {
 				font-size: 48upx;
 			}
-			.sum-num-1 {
-				font-size: 38upx;
+			.sum-num-2 {
+				font-size: 42upx;
 			}
 		}
 	}
 }
 .uni-table{
 	.uni-table-row {
-		padding: 15px;
-		border-bottom: 1rpx solid #000000;
+		padding: 25upx;
+		
 		.uni-table-cell{
-			
+				border-bottom: 1px solid #D0D0D0;
 		}
 	}
+}
+.text-right{
+	text-align: right;
+}
+.text-center{
+	text-align: center;
+}
+.text-left{
+	text-align: left;
 }
 
 </style>

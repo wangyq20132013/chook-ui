@@ -39,7 +39,7 @@
 			</view>
 		</view>
 		<view class="center-list">
-			<view class="center-list-item">
+			<view class="center-list-item"  @click="navigateTo('about')">
 				<text class="list-icon">&#xe614;</text>
 				<text class="list-text">关于应用</text>
 				<text class="navigat-arrow">&#xe65e;</text>

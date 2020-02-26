@@ -1,8 +1,7 @@
 <script>
-import { mapState, mapMutations } from 'vuex';
-import { getToken } from 'utils/auth.js';
+import { TokenKey, getToken } from 'utils/auth.js';
+import {upgrade} from 'utils/upgrade.js'
 export default {
-	computed: mapState(['hasLogin']),
 	onLaunch: function() {
 		console.log('App Launch');
 		if (getToken()) {
@@ -12,6 +11,7 @@ export default {
 				url: 'pages/login/login'
 			});
 		}
+		upgrade();
 	},
 	onShow: function() {
 		console.log('App Show');
@@ -20,7 +20,7 @@ export default {
 		console.log('App Hide');
 	},
 	methods: {
-		...mapMutations(['login'])
+		
 	}
 };
 </script>

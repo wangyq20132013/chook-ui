@@ -75,7 +75,6 @@ export default {
 		initHenhouse() {
 			this.$getData('/datainterface/getdata/list/cd92325237b14ed6a3566b4f0af3dd4f/getHouse', {}).then(res => {
 				this.listData = res.data;
-				console.log(this.listData);
 			});
 		},
 		ageOfDays(date, days) {

@@ -1,5 +1,5 @@
 {
-    "name" : "chook",
+    "name" : "智慧养鸡",
     "appid" : "__UNI__C5D1610",
     "description" : "智慧养鸡",
     "versionName" : "1.0.0",
@@ -45,7 +45,9 @@
             /* ios打包配置 */
             "ios" : {},
             /* SDK配置 */
-            "sdkConfigs" : {},
+            "sdkConfigs" : {
+                "ad" : null
+            },
             "icons" : {
                 "android" : {
                     "hdpi" : "unpackage/res/icons/72x72.png",
@@ -78,6 +80,9 @@
                     }
                 }
             }
+        },
+        "splashscreen" : {
+            "waiting" : false
         }
     },
     /* 快应用特有相关 */

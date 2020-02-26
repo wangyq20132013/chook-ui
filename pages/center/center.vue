@@ -45,10 +45,18 @@
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
 		</view>
+		<view class="center-list">
+			<view class="center-list-item" @click="upgrade">
+				<text class="list-icon">&#xe614;</text>
+				<text class="list-text">版本更新</text>
+				<text class="navigat-arrow">&#xe65e;</text>
+			</view>
+		</view>
 	</view>
 </template>
 
 <script>
+	import {upgrade} from '../../utils/upgrade.js'
 	export default {
 		data() {
 			return {
@@ -82,6 +90,9 @@
 				uni.navigateTo({
 					url: url
 				})
+			},
+			upgrade(){
+				upgrade();
 			}
 		}
 	}

@@ -11,7 +11,7 @@
         "compilerVersion" : 3,
         /* 模块配置 */
         "modules" : {
-            "SQLite" : {}
+            "Share" : {}
         },
         /* 应用发布信息 */
         "distribute" : {

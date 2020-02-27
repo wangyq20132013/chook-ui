@@ -155,7 +155,18 @@
 	    ,{
             "path" : "pages/center/about",
             "style" : {
-				"navigationBarTitleText": "关于应用"
+				"navigationBarTitleText": "关于应用",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [{
+							"type":"share",
+							"fontSize": "27",
+							"select": false,
+							"width": "auto"
+						}]
+					}
+				}
+				
 			}
         }
     ],

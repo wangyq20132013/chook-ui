@@ -8,18 +8,13 @@
 			</view>
 		</view>
 		<view class="center-list">
-			<view class="center-list-item border-bottom">
+			<view class="center-list-item border-bottom" @click="navigateTo('../house/factory')">
 				<text class="list-icon">&#xe60f;</text>
-				<text class="list-text">帐号管理</text>
+				<text class="list-text">养殖场管理</text>
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
 		</view>
 		<view class="center-list">
-			<view class="center-list-item border-bottom" @click="navigateTo('../house/house')">
-				<text class="list-icon">&#xe60f;</text>
-				<text class="list-text">鸡舍管理</text>
-				<text class="navigat-arrow">&#xe65e;</text>
-			</view>
 			<view class="center-list-item border-bottom">
 				<text class="list-icon">&#xe60f;</text>
 				<text class="list-text">员工管理</text>
@@ -31,13 +26,13 @@
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
 		</view>
-		<view class="center-list">
+		<!-- <view class="center-list">
 			<view class="center-list-item border-bottom">
 				<text class="list-icon">&#xe60b;</text>
 				<text class="list-text">帮助与反馈</text>
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
-		</view>
+		</view> -->
 		<view class="center-list">
 			<view class="center-list-item"  @click="navigateTo('about')">
 				<text class="list-icon">&#xe614;</text>

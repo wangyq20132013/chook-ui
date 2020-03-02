@@ -3,7 +3,7 @@
 	<cell>
 		<!-- #endif -->
 		<view :class="disabled ? 'uni-list-item--disabled' : ''" :hover-class="disabled || showSwitch ? '' : 'uni-list-item--hover'"
-		 class="uni-list-item" @click="onClick">
+		 class="uni-list-item" @click="onClick" >
 			<view class="uni-list-item__container" :class="{'uni-list-item--first':isFirstChild}">
 				<view v-if="thumb" class="uni-list-item__icon">
 					<image :src="thumb" class="uni-list-item__icon-img" />

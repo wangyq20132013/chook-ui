@@ -25,10 +25,13 @@ function service(option) {
 				}
 			},
 			fail: (error) => {
+				uni.stopPullDownRefresh();
 				console.log(error);
 				uni.showToast({
 					icon: 'none',
-					title: '网络错误'
+					title: '网络错误',
+					position: "bottom"
+					
 				});
 				reject(error);
 			}

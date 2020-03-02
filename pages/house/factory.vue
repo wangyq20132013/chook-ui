@@ -1,17 +1,6 @@
 <template>
 	<view class="content">
-		<view class="uni-list">
-			<view class="uni-list-cell" hover-class="uni-list-cell-hover" @longpress="del(value)" v-for="(value, key) in listData" :key="key">
-				<view class="uni-media-list" @tap.stop="goDetail(value)">
-					<view class="uni-media-list-body">
-						<view class="uni-media-list-text-top">{{ value.name }}</view>
-						<view class="uni-media-list-text-bottom">
-							<text>最大存栏：{{ value.max }}</text>
-						</view>
-					</view>
-				</view>
-			</view>
-		</view>
+		<uni-list><uni-list-item :title="item.name" @longpress="del(item)" v-for="(item, key) in listData" :key="key" @tap="goDetail(item)"></uni-list-item></uni-list>
 		<uni-load-more :status="status" :icon-size="16" :content-text="contentText" />
 	</view>
 </template>
@@ -21,7 +10,6 @@ export default {
 	components: {},
 	data() {
 		return {
-			fid: '',
 			listData: [],
 			last_id: '',
 			reload: false,
@@ -29,7 +17,7 @@ export default {
 			contentText: {
 				contentdown: '上拉加载更多',
 				contentrefresh: '加载中',
-				contentnomore: '没有更多'
+				contentnomore: '没有更多数据了'
 			}
 		};
 	},
@@ -43,18 +31,18 @@ export default {
 		},
 		addHouse() {
 			uni.navigateTo({
-				url: 'houseForm?fid='+this.fid
+				url: 'factoryForm'
 			});
 		},
 		goDetail(item) {
 			if (item) {
 				uni.navigateTo({
-					url: 'houseForm?id=' + item.id
+					url: 'factoryForm?id=' + item.id
 				});
 			}
 		},
 		getList() {
-			this.$getData('/datainterface/getdata/list/cd92325237b14ed6a3566b4f0af3dd4f/getHouseList', { fid: this.fid }).then(res => {
+			this.$getData('/datainterface/getdata/list/cd92325237b14ed6a3566b4f0af3dd4f/queryMyChookFactory').then(res => {
 				uni.stopPullDownRefresh();
 				this.listData = res.data.map(item => {
 					return {
@@ -65,6 +53,9 @@ export default {
 						notes: item.NOTES
 					};
 				});
+				if(this.listData.length<10){
+					this.status ="noMore"
+				}
 			});
 		},
 		del(value) {
@@ -95,9 +86,6 @@ export default {
 			});
 		}
 	},
-	onLoad(option) {
-		this.fid = option.fid;
-	},
 	onShow() {
 		this.getList();
 	},
@@ -109,4 +97,30 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped lang="scss">
+.m-list-item {
+	font-size: 17px;
+	position: relative;
+	padding-left: 15px;
+	.m-list-item_container {
+		padding: 12px 15px;
+		font-size: 14px;
+		color: #3b4144;
+		overflow: hidden;
+		border-bottom: 1rpx solid #bbb;
+		.m-list-item__extra {
+			display: flex;
+			-webkit-box-orient: horizontal;
+			-webkit-box-direction: normal;
+			-webkit-flex-direction: row;
+			flex-direction: row;
+			-webkit-box-pack: end;
+			-webkit-justify-content: flex-end;
+			justify-content: flex-end;
+			-webkit-box-align: center;
+			-webkit-align-items: center;
+			align-items: center;
+		}
+	}
+}
+</style>

@@ -1,38 +1,22 @@
 <template>
-	<view class="main">
+	<view class="content">
 		<uni-calendar :insert="true" :lunar="true" @change="select" :selected="selected"></uni-calendar>
 		<view style="margin-top: 15rpx; padding: 10rpx;">
-			<evan-form :model="info" ref="form">
-				<evan-form-item label="日期：" prop="recordeddate"><input type="text" v-model="info.recordeddate" /></evan-form-item>
-				<evan-form-item label="采食量(kg)：" prop="fodder"><input type="number" v-model="info.fodder" /></evan-form-item>
-				<evan-form-item label="产蛋量(kg)：" prop="egg"><input type="number" v-model="info.egg" /></evan-form-item>
-				<evan-form-item label="死亡数(支)：" prop="die"><input type="number" v-model="info.die" /></evan-form-item>
-				<evan-form-item label="今日价格(元)：" prop="price"><input type="number" v-model="info.price" /></evan-form-item>
-				<evan-form-item label="药物防疫：" prop="medicine"><textarea v-model="info.medicine" /></evan-form-item>
-			</evan-form>
+			<m-form :model="info" ref="form">
+				<m-form-item label="日期：" prop="recordeddate"><input type="text" v-model="info.recordeddate" /></m-form-item>
+				<m-form-item label="采食量(kg)：" prop="fodder"><input type="number" v-model="info.fodder" /></m-form-item>
+				<m-form-item label="产蛋量(kg)：" prop="egg"><input type="number" v-model="info.egg" /></m-form-item>
+				<m-form-item label="死亡数(支)：" prop="die"><input type="number" v-model="info.die" /></m-form-item>
+				<m-form-item label="今日价格(元)：" prop="price"><input type="number" v-model="info.price" /></m-form-item>
+				<m-form-item label="药物防疫：" prop="medicine"><textarea v-model="info.medicine" /></m-form-item>
+			</m-form>
 			<button type="primary" @click="save">保存</button>
 		</view>
 	</view>
 </template>
 
 <script>
-import navBar from '@/components/zhouWei-navBar/index.vue';
-import uniCalendar from '@/components/uni-calendar/uni-calendar.vue';
-import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue';
-import uniList from '@/components/uni-list/uni-list.vue';
-import uniListItem from '@/components/uni-list-item/uni-list-item.vue';
-import evanForm from '@/components/evan-form/evan-form.vue';
-import evanFormItem from '@/components/evan-form/evan-form-item.vue';
 export default {
-	components: {
-		uniNavBar,
-		uniCalendar,
-		uniList,
-		uniListItem,
-		evanForm,
-		evanFormItem,
-		navBar
-	},
 	data() {
 		return {
 			id: '',

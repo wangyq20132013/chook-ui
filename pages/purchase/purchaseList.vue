@@ -1,43 +1,36 @@
 <template>
-	<view class="main">
-		<view class="">
-			<view class="uni-list">
-				<view class="uni-list-cell" hover-class="uni-list-cell-hover" @longpress="del(value)" v-for="(value, key) in listData" :key="key">
-					<view class="uni-media-list" @tap.stop="goDetail(value)">
-						<view class="uni-media-list-body">
-							<view class="uni-media-list-text-top">
-								<span>{{ value.provider }}</span>
-								<span style="float: right;"><uni-tag :text="value.status === 1? '已结清':'未结清'" :type="value.status === 1? 'success':'error'" size="small" :circle="true"></uni-tag></span>
-							</view>
-							<view class="uni-media-list-text-bottom">
-								<text>{{ value.buydate }}</text>
-								<text>{{ value.type }}</text>
-							</view>
+	<view class="content">
+		<view class="uni-list">
+			<view class="uni-list-cell" hover-class="uni-list-cell-hover" @longpress="del(value)" v-for="(value, key) in listData" :key="key">
+				<view class="uni-media-list" @tap.stop="goDetail(value)">
+					<view class="uni-media-list-body">
+						<view class="uni-media-list-text-top">
+							<span>{{ value.provider }}</span>
+							<span style="float: right;">
+								<uni-tag :text="value.status === 1 ? '已结清' : '未结清'" :type="value.status === 1 ? 'success' : 'error'" size="small" :circle="true"></uni-tag>
+							</span>
+						</view>
+						<view class="uni-media-list-text-bottom">
+							<text>{{ value.buydate }}</text>
+							<text>{{ value.type }}</text>
 						</view>
 					</view>
 				</view>
 			</view>
-			<uni-load-more :status="status" :icon-size="16" :content-text="contentText" />
 		</view>
+		<uni-load-more :status="status" :icon-size="16" :content-text="contentText" />
 	</view>
 </template>
 
 <script>
-import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue';
-import navBar from '@/components/zhouWei-navBar/index.vue';
-import uniTag from "@/components/uni-tag/uni-tag.vue"
-
 var dateUtils = require('../../common/util.js').dateUtils;
 export default {
-	components: {
-		navBar,
-		uniLoadMore,
-		uniTag
-	},
 	data() {
 		return {
+			fid: '',
 			listData: [],
-			last_id: '',
+			page: 1,
+			rows: 10,
 			reload: false,
 			status: 'more',
 			contentText: {
@@ -47,63 +40,72 @@ export default {
 			}
 		};
 	},
-	onLoad() {
+	onLoad(option) {
+		this.fid = option.fid;
 		this.getList();
 	},
 	onPullDownRefresh() {
 		this.reload = true;
+		this.page = 1;
+		this.getList();
+	},
+	onReachBottom() {
+		this.status = 'more';
 		this.getList();
 	},
 	methods: {
 		add() {
 			uni.navigateTo({
-				url: 'purchaseForm'
+				url: 'purchaseForm?fid=' + this.fid
 			});
 		},
 		getList() {
-			var data = {
-				column: 'id,post_id,title,author_name,cover,published_at' //需要的字段名
-			};
-			if (this.last_id) {
-				//说明已有数据，目前处于上拉加载
-				this.status = 'loading';
-				data.minId = this.last_id;
-				data.time = new Date().getTime() + '';
-				data.pageSize = 10;
-			}
-			this.$getData('/datainterface/getdata/list/cd92325237b14ed6a3566b4f0af3dd4f/getPurchaseList',data).then(res=>{
+			var data = Object.assign(
+				{
+					fid: this.fid
+				},
+				{
+					page: this.page,
+					rows: this.rows
+				}
+			);
+			
+			this.$getData('/datainterface/getdata/list/cd92325237b14ed6a3566b4f0af3dd4f/getPurchaseList', data).then(res => {
 				uni.stopPullDownRefresh();
-				let list = this.setTime(res.data);
-				this.listData = this.reload ? list : this.listData.concat(list);
-				this.last_id = list[list.length - 1].id;
-				this.reload = false;
-			})
+				if (res.rows) {
+					let list = res.rows.map(e => {
+						return {
+							provider: e.PROVIDER,
+							type: e.TYPE,
+							id: e.ID,
+							buydate: e.BUYDATE,
+							status: e.STATUS
+						};
+					});
+					this.listData = this.reload ? list : this.listData.concat(list);
+					this.reload = false;
+					if (list.length < 10) {
+						this.status = 'noMore';
+					} else {
+						this.status = 'more';
+					}
+					this.page++;
+				}
+			});
 		},
 		goDetail: function(value) {
 			uni.navigateTo({
 				url: 'purchaseForm?id=' + value.id
 			});
 		},
-		setTime: function(items) {
-			var newItems = [];
-			items.forEach(e => {
-				newItems.push({
-					provider: e.PROVIDER,
-					type: e.TYPE,
-					id: e.ID,
-					buydate: e.BUYDATE,
-					status: e.STATUS
-				});
-			});
-			return newItems;
-		},
+
 		del(value) {
 			uni.showModal({
 				title: '提示',
 				content: '确认删除？',
 				success: res => {
 					if (res.confirm) {
-						this.$postData('/datainterface/savedata/cd92325237b14ed6a3566b4f0af3dd4f/delBuyInfo', { id: value.id }).then(res=>{
+						this.$postData('/datainterface/savedata/cd92325237b14ed6a3566b4f0af3dd4f/delBuyInfo', { id: value.id }).then(res => {
 							if (res.success) {
 								uni.showToast({
 									title: '删除成功',
@@ -119,15 +121,14 @@ export default {
 									duration: 2000
 								});
 							}
-						})
-						
+						});
 					}
 				}
 			});
 		}
 	},
 	onNavigationBarButtonTap(e) {
-		if(e.index === 0){
+		if (e.index === 0) {
 			this.add();
 		}
 	}

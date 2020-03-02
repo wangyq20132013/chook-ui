@@ -91,7 +91,7 @@ const user = {
 					resolve()
 				}).catch(error => {
 					logOut(commit)
-					reject(error)
+					resolve()
 				})
 			})
 		},

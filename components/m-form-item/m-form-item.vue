@@ -1,7 +1,7 @@
 <template>
 	<view>
-		<slot name="formItem" v-if="$slots.formItem"></slot>
-		<view v-else class="evan-form-item-container" :style="{borderWidth:border?'1rpx':0}">
+		
+		<view  class="evan-form-item-container" :style="{borderWidth:border?'1rpx':0}">
 			<view v-if="label" class="evan-form-item-container__label" :class="{showAsteriskRect:hasRequiredAsterisk,isRequired:showRequiredAsterisk}"
 			 :style="mLabelStyle">{{label}}</view>
 			<view class="evan-form-item-container__main" :style="mContentStyle">
@@ -13,7 +13,7 @@
 
 <script>
 	export default {
-		name: 'EvanFormItem',
+		name: 'MFormItem',
 		props: {
 			labelStyle: Object,
 			label: String,
@@ -68,7 +68,7 @@
 			getParent() {
 				let parent = this.$parent
 				let parentName = parent.$options.name
-				while (parentName !== 'EvanForm') {
+				while (parentName !== 'MForm') {
 					parent = parent.$parent
 					parentName = parent.$options.name
 				}
@@ -89,12 +89,13 @@
 		display: flex;
 		flex-direction: row;
 		align-items: flex-start;
-		padding: 30rpx 0;
 		border-bottom: 1rpx solid #eee;
 
 		&__label {
 			font-size: 28rpx;
 			color: #666;
+			line-height: 82rpx;
+			padding: 4rpx 0;
 
 			&.showAsteriskRect::before {
 				content: '';
@@ -110,6 +111,10 @@
 
 		&__main {
 			flex: 1;
+			min-height: 90rpx;
+			display: flex;
+			align-items: center;
+			overflow: hidden;
 		}
 	}
 </style>

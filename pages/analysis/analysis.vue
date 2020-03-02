@@ -1,12 +1,7 @@
 <template>
-	<view class="main">
+	<view class="content">
+		<view class="uni-title uni-center">敬请期待</view>
 		
-		<view class="cu-list grid" :class="['col-' + 3]">
-			<view class="cu-item" >
-				
-				<text>sd</text>
-			</view>
-		</view>
 	</view>
 </template>
 

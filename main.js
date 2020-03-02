@@ -5,7 +5,11 @@ import store from './store'
 
 import datainterface from './api/datainterface.js'
 
+import components from './components'
+
 Vue.use(datainterface);
+
+Vue.use(components)
 
 Vue.config.productionTip = false
 

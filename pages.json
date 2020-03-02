@@ -3,7 +3,9 @@
 		{
 			"path": "pages/main/main",
 			"style": {
-				"navigationBarTitleText": "我的养殖场"
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "我的养殖场",
+				"enablePullDownRefresh": true
 			}
 		}, {
 			"path": "pages/login/login",
@@ -64,9 +66,31 @@
 
 			}
 		}, {
+			"path": "pages/house/factory",
+			"style": {
+				"navigationBarTitleText": "养殖场管理",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"titleNView": {
+						"buttons": [{
+							"text": "添加",
+							"fontSize": "14",
+							"select": false,
+							"width": "auto"
+						}]
+					}
+				}
+
+			}
+		}, {
 			"path": "pages/house/houseForm",
 			"style": {
 				"navigationBarTitleText": "鸡舍信息"
+			}
+		}, {
+			"path": "pages/house/factoryForm",
+			"style": {
+				"navigationBarTitleText": "养殖场信息"
 			}
 		}, {
 			"path": "pages/main/register",
@@ -75,7 +99,9 @@
 			}
 		}, {
 			"path": "pages/analysis/analysis",
-			"style": {}
+			"style": {
+				"navigationBarTitleText": "统计分析"
+			}
 		}, {
 			"path": "pages/purchase/purchase",
 			"style": {
@@ -151,25 +177,24 @@
 			"style": {
 				"navigationBarTitleText": "销售信息"
 			}
-		}
-	    ,{
-            "path" : "pages/center/about",
-            "style" : {
+		}, {
+			"path": "pages/center/about",
+			"style": {
 				"navigationBarTitleText": "关于应用",
 				"app-plus": {
 					"titleNView": {
 						"buttons": [{
-							"type":"share",
+							"type": "share",
 							"fontSize": "27",
 							"select": false,
 							"width": "auto"
 						}]
 					}
 				}
-				
+
 			}
-        }
-    ],
+		}
+	],
 	"tabBar": {
 		"color": "#7a7e83",
 		"selectedColor": "#0faeff",
@@ -179,19 +204,9 @@
 			"text": "首页",
 			"iconPath": "static/img/home.png",
 			"selectedIconPath": "static/img/homeHL.png"
-		}, {
+		},{
 			"pagePath": "pages/analysis/analysis",
 			"text": "统计分析",
-			"iconPath": "static/img/home.png",
-			"selectedIconPath": "static/img/homeHL.png"
-		}, {
-			"pagePath": "pages/purchase/purchase",
-			"text": "采购台账",
-			"iconPath": "static/img/home.png",
-			"selectedIconPath": "static/img/homeHL.png"
-		}, {
-			"pagePath": "pages/sell/sell",
-			"text": "销售台账",
 			"iconPath": "static/img/home.png",
 			"selectedIconPath": "static/img/homeHL.png"
 		}, {
@@ -203,7 +218,7 @@
 	},
 	"globalStyle": {
 		//"navigationStyle": "custom",
-		"navigationBarTextStyle":"white",
+		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "",
 		"navigationBarBackgroundColor": "rgba(82, 133, 197, 1)",
 		"backgroundColor": "#FFFFFF"

@@ -1,40 +1,33 @@
 <template>
-	<view class="main">
-		<view class="">
-			<view class="uni-list">
-				<view class="uni-list-cell" hover-class="uni-list-cell-hover" @longpress="del(value)" v-for="(value, key) in listData" :key="key">
-					<view class="uni-media-list" @tap.stop="goDetail(value)">
-						<view class="uni-media-list-body">
-							<view class="uni-media-list-text-top">{{ value.client }}</view>
-							<view class="uni-media-list-text-bottom">
-								<text>{{ value.selldate }}</text>
-								<text>{{ value.type }}</text>
-							</view>
+	<view class="content">
+		<view class="uni-list">
+			<view class="uni-list-cell" hover-class="uni-list-cell-hover" @longpress="del(value)" v-for="(value, key) in listData" :key="key">
+				<view class="uni-media-list" @tap.stop="goDetail(value)">
+					<view class="uni-media-list-body">
+						<view class="uni-media-list-text-top">{{ value.client }}</view>
+						<view class="uni-media-list-text-bottom">
+							<text>{{ value.selldate }}</text>
+							<text>{{ value.type }}</text>
 						</view>
 					</view>
 				</view>
 			</view>
-			<uni-load-more :status="status" :icon-size="16" :content-text="contentText" />
 		</view>
+		<uni-load-more :status="status" :icon-size="16" :content-text="contentText" />
 	</view>
 </template>
 
 <script>
-import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue';
-import navBar from '@/components/zhouWei-navBar/index.vue';
 
-var dateUtils = require('../../common/util.js').dateUtils;
 export default {
-	components: {
-		navBar,
-		uniLoadMore
-	},
 	data() {
 		return {
+			fid: "",
 			listData: [],
-			last_id: '',
 			reload: false,
 			status: 'more',
+			page: 1,
+			rows: 10,
 			contentText: {
 				contentdown: '上拉加载更多',
 				contentrefresh: '加载中',
@@ -42,56 +35,64 @@ export default {
 			}
 		};
 	},
-	onLoad() {
+	onLoad(option) {
+		this.fid = option.fid;
 		this.getList();
 	},
 	onPullDownRefresh() {
 		this.reload = true;
+		this.page = 1;
+		this.getList();
+	},
+	onReachBottom() {
+		this.status = 'more';
 		this.getList();
 	},
 	methods: {
 		add() {
 			uni.navigateTo({
-				url: 'sellForm'
+				url: 'sellForm?fid=' + this.fid
 			});
 		},
 		getList() {
-			var data = {
-				column: 'id,post_id,title,author_name,cover,published_at' //需要的字段名
-			};
-			if (this.last_id && !this.reload) {
-				//说明已有数据，目前处于上拉加载
-				this.status = 'loading';
-				data.minId = this.last_id;
-				data.time = new Date().getTime() + '';
-				data.pageSize = 10;
-			}
-			this.$getData('/datainterface/getdata/list/cd92325237b14ed6a3566b4f0af3dd4f/getSellList',data).then(res=>{
+			var data = Object.assign(
+				{
+					fid: this.fid
+				},
+				{
+					page: this.page,
+					rows: this.rows
+				}
+			);
+			
+			this.$getData('/datainterface/getdata/list/cd92325237b14ed6a3566b4f0af3dd4f/getSellList', data).then(res => {
 				uni.stopPullDownRefresh();
-				let list = this.setTime(res.data);
-				this.listData = this.reload ? list : this.listData.concat(list);
-				this.last_id = list[list.length - 1].id;
-				this.reload = false;
-			})
+				if (res.rows) {
+					let list = res.rows.map(e => {
+						return {
+							client: e.CLIENT,
+							type: e.TYPE,
+							id: e.ID,
+							selldate: e.SELLDATE,
+							price: e.PRICE,
+							weight: e.WEIGHT
+						};
+					});
+					this.listData = this.reload ? list : this.listData.concat(list);
+					this.reload = false;
+					if (list.length < 10) {
+						this.status = 'noMore';
+					} else {
+						this.status = 'more';
+					}
+					this.page++;
+				}
+			});
 		},
 		goDetail: function(value) {
 			uni.navigateTo({
 				url: 'sellForm?id=' + value.id
 			});
-		},
-		setTime: function(items) {
-			var newItems = [];
-			items.forEach(e => {
-				newItems.push({
-					client: e.CLIENT,
-					type: e.TYPE,
-					id: e.ID,
-					selldate: e.SELLDATE,
-					price: e.PRICE,
-					weight: e.WEIGHT
-				});
-			});
-			return newItems;
 		},
 		del(value) {
 			uni.showModal({
@@ -99,7 +100,7 @@ export default {
 				content: '确认删除？',
 				success: res => {
 					if (res.confirm) {
-						this.$postData('/datainterface/savedata/cd92325237b14ed6a3566b4f0af3dd4f/delSellInfo', { id: value.id }).then(res=>{
+						this.$postData('/datainterface/savedata/cd92325237b14ed6a3566b4f0af3dd4f/delSellInfo', { id: value.id }).then(res => {
 							if (res.success) {
 								uni.showToast({
 									title: '删除成功',
@@ -115,7 +116,7 @@ export default {
 									duration: 2000
 								});
 							}
-						})
+						});
 					}
 				}
 			});

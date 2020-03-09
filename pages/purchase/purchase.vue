@@ -42,7 +42,7 @@
 		<view class="uni-table uni-list">
 			<view class="uni-table ">
 				<view class="uni-table-row">
-					<view class="uni-table-cell"><text>名称</text></view>
+					<view class="uni-table-cell"><text>种类名称</text></view>
 					<view class="uni-table-cell text-right"><text>总金额</text></view>
 					<view class="uni-table-cell text-right"><text>已支付</text></view>
 					<view class="uni-table-cell text-right"><text>未支付</text></view>

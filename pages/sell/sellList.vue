@@ -7,7 +7,7 @@
 						<view class="uni-media-list-text-top">{{ value.client }}</view>
 						<view class="uni-media-list-text-bottom">
 							<text>{{ value.selldate }}</text>
-							<text>{{ value.type }}</text>
+							<text>{{value.price}}元*{{value.weight}}={{ value.money }}元</text>
 						</view>
 					</view>
 				</view>
@@ -75,7 +75,8 @@ export default {
 							id: e.ID,
 							selldate: e.SELLDATE,
 							price: e.PRICE,
-							weight: e.WEIGHT
+							weight: e.WEIGHT,
+							money: e.MONEY
 						};
 					});
 					this.listData = this.reload ? list : this.listData.concat(list);
@@ -120,6 +121,11 @@ export default {
 					}
 				}
 			});
+		}
+	},
+	onNavigationBarButtonTap(e) {
+		if (e.index === 0) {
+			this.add();
 		}
 	}
 };

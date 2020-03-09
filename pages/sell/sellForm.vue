@@ -12,26 +12,55 @@
 			<m-form-item label="应收金额(元)：">{{ sumMoney() }}</m-form-item>
 			<m-form-item label="框数：" prop="box"><input type="number" v-model="data.box" /></m-form-item>
 			<m-form-item label="盘数：" prop="dish"><input type="number" v-model="data.dish" /></m-form-item>
+			<view>
+				<m-form-item label="收款时间1: ">
+					<picker mode="date" :value="data.indate1" @change="data.indate1 = $event.target.value">
+						<text class="uni-input">{{ data.indate1 }}</text>
+					</picker>
+				</m-form-item>
+				<m-form-item label="收款金额1: "><input type="digit" v-model="data.inmoney1" /></m-form-item>
+			</view>
+			<view v-if="data.indate2">
+				<m-form-item label="收款时间2: ">
+					<picker mode="date" :value="data.indate1" @change="data.indate1 = $event.target.value">
+						<text class="uni-input">{{ data.indate1 }}</text>
+					</picker>
+				</m-form-item>
+				<m-form-item label="收款金额2: "><input type="digit" v-model="data.inmoney2" /></m-form-item>
+			</view>
+			<view v-if="data.indate3">
+				<m-form-item label="收款时间3: ">
+					<picker mode="date" :value="data.indate1" @change="data.indate1 = $event.target.value">
+						<text class="uni-input">{{ data.indate1 }}</text>
+					</picker>
+				</m-form-item>
+				<m-form-item label="收款金额3: "><input type="digit" v-model="data.inmoney3" /></m-form-item>
+			</view>
+			<m-form-item><button type="default" size="mini" @click="addIn">添加收款信息</button></m-form-item>
 			<m-form-item label="备注：" prop="notes"><textarea v-model="data.notes" maxlength="1000" /></m-form-item>
+
+			<m-form-item>
+				<view style="width: 100%;"><button type="primary" @click="save">保存</button></view>
+			</m-form-item>
 		</m-form>
-		<view><button type="primary" @click="save">保存</button></view>
 	</view>
 </template>
 
 <script>
 import { dateFormat } from '@/common/util.js';
 export default {
-	components: {
-	},
+	components: {},
 	data() {
 		return {
+			fid: '',
 			id: '',
 			data: {
 				id: '',
 				selldate: dateFormat('yyyy-mm-dd', new Date()),
 				client: '',
 				price: '',
-				weight: ''
+				weight: '',
+				indate1: dateFormat('yyyy-mm-dd', new Date())
 			}
 		};
 	},
@@ -47,7 +76,8 @@ export default {
 			uni.navigateBack();
 		},
 		save() {
-			this.$postData('/datainterface/savedata/cd92325237b14ed6a3566b4f0af3dd4f/saveSellInfo', this.data).then(res => {
+			var data = Object.assign({ fid: this.fid }, this.data);
+			this.$postData('/datainterface/savedata/cd92325237b14ed6a3566b4f0af3dd4f/saveSellInfo', data).then(res => {
 				if (res.success) {
 					//this.goBack();
 					uni.showToast({
@@ -57,9 +87,24 @@ export default {
 					});
 				}
 			});
+		},
+		addIn() {
+			if (!this.data.indate1) {
+				this.data.indate1 = dateFormat('yyyy-mm-dd', new Date());
+			} else if (!this.data.indate2) {
+				this.data.indate2 = dateFormat('yyyy-mm-dd', new Date());
+			} else if (!this.data.indate3) {
+				this.data.indate3 = dateFormat('yyyy-mm-dd', new Date());
+			} else {
+				uni.showToast({
+					icon: 'none',
+					title: '只支持添加三次收款信息'
+				});
+			}
 		}
 	},
 	onLoad(option) {
+		this.fid = option.fid;
 		this.id = option.id;
 		if (this.id) {
 			this.$getData('/datainterface/getdata/list/cd92325237b14ed6a3566b4f0af3dd4f/getSellList', { id: this.id }).then(res => {

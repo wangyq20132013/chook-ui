@@ -30,11 +30,11 @@
 			<view class="sum-row"><view class="sum-cell"></view></view>
 			<uni-grid :column="2" :show-border="false" :square="false">
 				<uni-grid-item class="text-center">
-					<span class="sum-title">已回款</span>
+					<span class="sum-title">已收款</span>
 					<span class="sum-num-2">{{ payMoney }}元</span>
 				</uni-grid-item>
 				<uni-grid-item class="text-center">
-					<span class="sum-title">未回款</span>
+					<span class="sum-title">未收款</span>
 					<span class="sum-num-2">{{ noPayMoney }}元</span>
 				</uni-grid-item>
 			</uni-grid>
@@ -44,21 +44,21 @@
 				<view class="uni-table-row">
 					<view class="uni-table-cell"><text>名称</text></view>
 					<view class="uni-table-cell text-right"><text>总金额</text></view>
-					<view class="uni-table-cell text-right"><text>已支付</text></view>
-					<view class="uni-table-cell text-right"><text>未支付</text></view>
+					<view class="uni-table-cell text-right"><text>已收</text></view>
+					<view class="uni-table-cell text-right"><text>未收</text></view>
 				</view>
 				<view class="uni-table-row" hover-class="uni-list-cell-hover" @longpress="del(value)" v-for="(value, key) in listData" :key="key">
 					<view class="uni-table-cell">
-						<text>{{ value.type }}</text>
+						<text>{{ value.client }}</text>
 					</view>
 					<view class="uni-table-cell text-right">
 						<text>{{ value.money }}元</text>
 					</view>
 					<view class="uni-table-cell text-right">
-						<text>{{ value.paymoney }}元</text>
+						<text>{{ value.inmoney }}元</text>
 					</view>
 					<view class="uni-table-cell text-right">
-						<text>{{ value.nopaymoney }}元</text>
+						<text>{{ value.noinmoney }}元</text>
 					</view>
 				</view>
 			</view>
@@ -105,15 +105,15 @@ export default {
 				data.time = new Date().getTime() + '';
 				data.pageSize = 10;
 			}
-			this.$getData('/datainterface/getdata/list/cd92325237b14ed6a3566b4f0af3dd4f/getBuyInfoByType', params).then(res => {
+			this.$getData('/datainterface/getdata/list/cd92325237b14ed6a3566b4f0af3dd4f/getSellInfoByClient', params).then(res => {
 				uni.stopPullDownRefresh();
 				if (res.data) {
 					let list = res.data.map(e => {
 						return {
-							type: e.TYPE,
+							client: e.CLIENT,
 							money: e.MONEY,
-							paymoney: e.PAYMONEY,
-							nopaymoney: e.MONEY - e.PAYMONEY
+							inmoney: e.INMONEY,
+							noinmoney: e.MONEY - e.INMONEY
 						};
 					});
 					this.listData = list;
@@ -122,12 +122,12 @@ export default {
 			});
 		},
 		loadMoney(params) {
-			this.$getData('/datainterface/getdata/list/cd92325237b14ed6a3566b4f0af3dd4f/queryBuyCountInfo', params).then(res => {
+			this.$getData('/datainterface/getdata/list/cd92325237b14ed6a3566b4f0af3dd4f/getSellCountInfo', params).then(res => {
 				uni.stopPullDownRefresh();
 				if (res.data && res.data.length) {
 					var data = res.data[0];
 					this.money = data.MONEY || 0;
-					this.payMoney = data.PAYMONEY || 0;
+					this.payMoney = data.INMONEY || 0;
 					this.noPayMoney = this.money - this.payMoney;
 				}
 			});

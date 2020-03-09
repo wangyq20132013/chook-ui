@@ -187,4 +187,5 @@ button.primary {
 .picker-text {
 	padding: 10px;
 }
+
 </style>

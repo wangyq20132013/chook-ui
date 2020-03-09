@@ -98,6 +98,12 @@
 				"navigationBarTitleText": "存栏信息"
 			}
 		}, {
+			"path": "pages/main/registerList",
+			"style": {
+				"navigationBarTitleText": "进鸡记录",
+				"enablePullDownRefresh": true
+			}
+		}, {
 			"path": "pages/analysis/analysis",
 			"style": {
 				"navigationBarTitleText": "统计分析"

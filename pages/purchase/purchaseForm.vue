@@ -37,8 +37,10 @@
 				<m-form-item label="支付金额3: "><input type="digit" v-model="data.paymoney3" /></m-form-item>
 			</view>
 			<m-form-item><button type="default" @click="addPay">添加支付信息</button></m-form-item>
+			<m-form-item>
+				<view style="width: 100%;"><button type="primary" @click="save">保存</button></view>
+			</m-form-item>
 		</m-form>
-		<view><button type="primary" @click="save">保存</button></view>
 	</view>
 </template>
 

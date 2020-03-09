@@ -15,6 +15,13 @@
 			</view>
 		</view>
 		<view class="center-list">
+			<view class="center-list-item border-bottom" @click="navigateTo('../main/registerList')">
+				<text class="list-icon">&#xe60f;</text>
+				<text class="list-text">进鸡记录</text>
+				<text class="navigat-arrow">&#xe65e;</text>
+			</view>
+		</view>
+		<view class="center-list">
 			<view class="center-list-item border-bottom">
 				<text class="list-icon">&#xe60f;</text>
 				<text class="list-text">员工管理</text>

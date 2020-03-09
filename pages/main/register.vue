@@ -17,9 +17,9 @@
 			<m-form-item label="单价(元)：" prop="price"><input type="number" v-model="data.price" /></m-form-item>
 			<m-form-item label="金额(元)：" prop="money"><input type="number" v-model="data.money" /></m-form-item>
 			<m-form-item label="供应商：" prop="provider"><textarea v-model="data.provider" maxlength="1000" /></m-form-item>
+
+			<m-form-item><button type="primary" @click="save">保存</button></m-form-item>
 		</m-form>
-		<view><button type="primary" @click="save">保存</button></view>
-		<view><button type="warn" @click="del">删除</button></view>
 	</view>
 </template>
 

@@ -15,7 +15,7 @@
 			<view v-else-if="houseMsg">
 				<uni-notice-bar @getmore="createHouse" :showGetMore="true" moreText="快速创建" single="true" text="当前养殖场没有鸡舍！快去创建吧!"></uni-notice-bar>
 			</view>
-			<view>
+			<!-- <view>
 				<uni-grid :column="3" :show-border="false" :square="false">
 					<uni-grid-item>
 						<view class="flex-item uni-bg-red text-center">
@@ -36,7 +36,7 @@
 						</view>
 					</uni-grid-item>
 				</uni-grid>
-			</view>
+			</view> -->
 			<view class="uni-list">
 				<view class="uni-list-cell" v-for="(value, key) in listData" :key="key">
 					<uni-card :title="value.NAME" @tap="openHenhouse(value)" extra=">" is-shadow>
@@ -63,7 +63,7 @@
 					</uni-card>
 				</view>
 			</view>
-			<view class="uni-list">
+			<view v-if="!factoryMsg" class="uni-list">
 				<view class="uni-list-cell">
 					<uni-card title="采购台账" extra=">" is-shadow @click="toPurchase">
 						<view class="uni-table">
@@ -71,7 +71,7 @@
 								<view class="uni-table-cell">
 									<text>本月累计采购：</text>
 									<text class="pull-right">
-										<text>1200.00</text>
+										<text>{{ buyMoney }}</text>
 										<text>元</text>
 									</text>
 								</view>
@@ -86,7 +86,7 @@
 								<view class="uni-table-cell">
 									<text>本月累计销售：</text>
 									<text class="pull-right">
-										<text>1200.00</text>
+										<text>{{ sellMoney }}</text>
 										<text>元</text>
 									</text>
 								</view>
@@ -111,7 +111,9 @@ export default {
 			listData: [],
 			visable: false,
 			factoryMsg: false,
-			houseMsg: false
+			houseMsg: false,
+			buyMoney: 0,
+			sellMoney: 0
 		};
 	},
 	onLoad() {},
@@ -143,6 +145,8 @@ export default {
 				this.listData = res.data;
 				if (!this.listData.length) {
 					this.houseMsg = true;
+				}else{
+					this.houseMsg = false;
 				}
 			});
 		},
@@ -156,6 +160,9 @@ export default {
 				this.factoryList = res.data;
 				if (this.factoryList.length) {
 					this.selectFactory(this.factoryList[0]);
+					this.loadBuyMoney();
+					this.loadSellMoney();
+					this.factoryMsg = false;
 				} else {
 					this.factoryMsg = true;
 				}
@@ -186,6 +193,34 @@ export default {
 		createHouse() {
 			uni.navigateTo({
 				url: '../house/houseForm?fid=' + this.fid
+			});
+		},
+		loadBuyMoney() {
+			var params = {
+				fid: this.fid,
+				year: new Date().getFullYear(),
+				month: new Date().getMonth() + 1
+			};
+			this.$getData('/datainterface/getdata/list/cd92325237b14ed6a3566b4f0af3dd4f/queryBuyCountInfo', params).then(res => {
+				uni.stopPullDownRefresh();
+				if (res.data && res.data.length) {
+					var data = res.data[0];
+					this.buyMoney = data.MONEY || 0;
+				}
+			});
+		},
+		loadSellMoney() {
+			var params = {
+				fid: this.fid,
+				year: new Date().getFullYear() + '',
+				month: new Date().getMonth() + 1 + ''
+			};
+			this.$getData('/datainterface/getdata/list/cd92325237b14ed6a3566b4f0af3dd4f/getSellCountInfo', params).then(res => {
+				uni.stopPullDownRefresh();
+				if (res.data && res.data.length) {
+					var data = res.data[0];
+					this.sellMoney = data.MONEY || 0;
+				}
 			});
 		}
 	},
@@ -240,12 +275,11 @@ export default {
 	padding: 25upx;
 	margin: 20upx;
 	border-radius: 10upx;
-	&:first-child{
+	&:first-child {
 		margin-left: 20upx;
 	}
-	&:last-child{
+	&:last-child {
 		margin-right: 20upx;
 	}
 }
-
 </style>

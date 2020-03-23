@@ -7,8 +7,13 @@
 			<wInput v-model="phoneData" type="text" maxlength="11" placeholder="用户名/电话"></wInput>
 			<wInput v-model="passData" type="password" maxlength="11" placeholder="密码"></wInput>
 		</view>
+		<view class="main">
+			<view class="uni-list-cell uni-list-cell-pd">
+				<view class="uni-list-cell-db">记住密码</view>
+				<switch :checked="remember" />
+			</view>
+		</view>
 		<wButton text="登 录" :rotate="isRotate" @click.native="startLogin()" :bgColor="bgColor"></wButton>
-
 		<!-- 其他登录 -->
 		<view class="other_login cuIcon">
 			<view class="login_icon"><view class="cuIcon-weixin" @tap="login_weixin"></view></view>
@@ -32,11 +37,12 @@ export default {
 	data() {
 		return {
 			//logo图片 base64
+			remember: true,
 			logoImage: require('@/static/img/logo.png'),
 			phoneData: '', //用户/电话
 			passData: '', //密码
-			isRotate: false ,//是否加载旋转,
-			bgColor: "linear-gradient(to right, rgba(82, 133, 197, 1), rgba(82, 133, 197, 0.9))"
+			isRotate: false, //是否加载旋转,
+			bgColor: 'linear-gradient(to right, rgba(82, 133, 197, 1), rgba(82, 133, 197, 0.9))'
 		};
 	},
 	components: {
@@ -46,6 +52,12 @@ export default {
 	mounted() {
 		//_this = this;
 		//this.isLogin();
+		const userData = uni.getStorageSync('userData');
+
+		if (userData) {
+			this.phoneData = userData.loginname;
+			this.passData = userData.password;
+		}
 	},
 	methods: {
 		isLogin() {
@@ -89,12 +101,21 @@ export default {
 
 			this.isRotate = true;
 
-			this.$store.dispatch('Login', {
+			this.$store
+				.dispatch('Login', {
 					loginname: this.phoneData,
 					password: this.passData
 				})
 				.then(() => {
 					this.isRotate = false;
+					if (this.remember) {
+						uni.setStorageSync('userData', {
+							loginname: this.phoneData,
+							password: this.passData
+						});
+					}else{
+						uni.removeStorageSync("userData")
+					}
 					uni.reLaunch({
 						url: '../../pages/main/main'
 					});

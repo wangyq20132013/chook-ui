@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		<view>
+		<view style="margin: 0px -1px;">
 			<uni-grid :column="2" :show-border="true" :square="false">
 				<uni-grid-item class="text-center">
 					<wing-time-selector showType="year" @btnConfirm="selectYear">

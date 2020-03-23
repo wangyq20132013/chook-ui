@@ -54,7 +54,7 @@
 		text-align: center;
 		margin-left: auto;
 		margin-right: auto;
-		margin-top: 96upx;
+		margin-top: 76upx;
 	}
 	.dlbutton_loading {
 		color: #FFFFFF;

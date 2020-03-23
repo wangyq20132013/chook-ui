@@ -47,6 +47,7 @@
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
 		</view>
+		<!-- #ifdef APP-PLUS -->
 		<view class="center-list">
 			<view class="center-list-item" @click="upgrade">
 				<text class="list-icon">&#xe614;</text>
@@ -54,6 +55,7 @@
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
 		</view>
+		<!--  #endif -->
 	</view>
 </template>
 
